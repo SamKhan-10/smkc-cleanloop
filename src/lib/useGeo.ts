@@ -61,7 +61,7 @@ export function useGeo(opts: { auto?: boolean; target?: { lat: number; lng: numb
       (pos) => {
         const { latitude, longitude, accuracy } = pos.coords;
         once(() => settle(() => {
-          if (isInsideCity(latitude, longitude)) setState({ status: 'ok', lat: latitude, lng: longitude, accuracy: Math.round(accuracy), simulated: false });
+          if (isInsideCity(latitude, longitude)) setState({ status: 'ok', lat: latitude, lng: longitude, accuracy: Math.max(1, Math.round(accuracy)), simulated: false });
           else fallback('outside', pos.coords);
         }));
       },
