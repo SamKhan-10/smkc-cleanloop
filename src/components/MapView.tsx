@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Polygon, CircleMarker, Circle, Polyline, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -10,6 +10,42 @@ import { PRIORITY_COLOR, RESOLVED_COLOR, ZONE_COLOR } from '../lib/status';
 import { useT } from '../i18n';
 import { fmtWhen } from '../lib/format';
 import { StatusBadge } from './badges';
+
+/**
+ * Base map: OpenStreetMap standard tiles — free, no API key, token or environment variable.
+ * Usage policy: https://operations.osmfoundation.org/policies/tiles/ (attribution required, light use).
+ * If tiles cannot load (offline / blocked network), failed tiles are hidden and a neutral
+ * background is shown, so no provider error image or watermark is ever displayed.
+ */
+const BASE_TILES = {
+  url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors',
+  maxZoom: 19,
+};
+
+function BaseTiles({ onOffline }: { onOffline: (offline: boolean) => void }) {
+  const loaded = useRef(0);
+  const failed = useRef(0);
+  return (
+    <TileLayer
+      url={BASE_TILES.url}
+      attribution={BASE_TILES.attribution}
+      maxZoom={BASE_TILES.maxZoom}
+      eventHandlers={{
+        tileload: () => {
+          loaded.current += 1;
+          onOffline(false);
+        },
+        tileerror: (e) => {
+          // Hide the failed tile so the browser never shows a broken-image or provider error tile.
+          (e as L.TileErrorEvent).tile.style.visibility = 'hidden';
+          failed.current += 1;
+          if (loaded.current === 0 && failed.current >= 3) onOffline(true);
+        },
+      }}
+    />
+  );
+}
 
 export interface MapRoute {
   depot: { lat: number; lng: number; name: string };
@@ -104,9 +140,10 @@ export function MapView({
     [complaints],
   );
   const routeIds = new Set(route?.stops.map((s) => s.id));
+  const [offline, setOffline] = useState(false);
 
   return (
-    <div className={clsx('relative overflow-hidden rounded-2xl border border-ink-100 bg-ink-100', className)}>
+    <div className={clsx('relative overflow-hidden rounded-2xl border border-ink-100 bg-ink-100', offline && 'cl-map-offline', className)}>
       <MapContainer
         bounds={focus ? undefined : CITY_BOUNDS}
         center={focus ? [focus.lat, focus.lng] : undefined}
@@ -116,12 +153,7 @@ export function MapView({
         zoomControl
         attributionControl
       >
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; CARTO'
-          subdomains="abcd"
-          maxZoom={19}
-        />
+        <BaseTiles onOffline={setOffline} />
         <Fit focus={focus} route={route} />
         {showWards &&
           WARDS.map((w) => (

@@ -28,7 +28,7 @@ function Shell({ children }: { children: React.ReactNode }) {
             <LogoMark className="h-8 w-8" />
             <div className="leading-tight">
               <div className="font-display text-sm font-extrabold tracking-wide">FIELD VERIFIER</div>
-              <div className="text-[10px] font-semibold text-violet-300">CleanLoop · SMKC</div>
+              <div className="text-[10px] font-semibold text-violet-300">CivicSense · SMKC</div>
             </div>
           </Link>
           <div className="flex items-center gap-2">

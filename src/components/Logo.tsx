@@ -17,7 +17,7 @@ export function Logo({ dark, sub = true }: { dark?: boolean; sub?: boolean }) {
       <LogoMark className="h-9 w-9" />
       <span className="leading-none">
         <span className={clsx('block font-display text-[17px] font-extrabold tracking-tight', dark ? 'text-white' : 'text-ink-900')}>
-          Clean<span className={dark ? 'text-brand-300' : 'text-brand-600'}>Loop</span>
+          Civic<span className={dark ? 'text-brand-300' : 'text-brand-600'}>Sense</span>
         </span>
         {sub && <span className={clsx('mt-0.5 block text-[9.5px] font-bold uppercase tracking-[0.16em]', dark ? 'text-ink-400' : 'text-ink-500')}>SMKC · Civic Platform</span>}
       </span>

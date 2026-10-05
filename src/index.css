@@ -32,6 +32,12 @@
 
 /* Leaflet */
 .leaflet-container { font-family: Inter, sans-serif; background: #eef2f0; }
+/* Neutral fallback when base tiles cannot load: soft grid, no provider text or watermark */
+.cl-map-offline .leaflet-container {
+  background-color: #eef2f0;
+  background-image: linear-gradient(rgba(21,81,70,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(21,81,70,.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
 .leaflet-popup-content-wrapper { border-radius: 14px; box-shadow: 0 12px 28px -8px rgba(16,24,40,.25); }
 .leaflet-popup-content { margin: 12px 14px; }
 .leaflet-tooltip.ward-label { background: transparent; border: 0; box-shadow: none; font-weight: 700; color: #155146; font-size: 11px; text-shadow: 0 0 3px #fff, 0 0 3px #fff; }

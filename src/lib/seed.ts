@@ -7,14 +7,14 @@ import { newHotspot } from './hotspots';
 import { mulberry32, pick } from './random';
 
 /**
- * DEMO DATA — deterministic, illustrative records used to demonstrate CleanLoop.
+ * DEMO DATA — deterministic, illustrative records used to demonstrate CivicSense.
  * These are not real SMKC complaints or statistics.
  */
 
 export const DEMO_CITIZEN = {
   citizenId: 'C-10482',
   name: 'Demo Citizen',
-  email: 'citizen.demo@cleanloop.in',
+  email: 'citizen.demo@civicsense.in',
   phone: '9800010482',
 };
 
@@ -111,13 +111,13 @@ export function buildHistory(
   const h: HistoryEntry[] = [];
   let t = c.createdAt;
   h.push({ event: 'submitted', at: t, by: c.citizenId, status: 'pending' });
-  h.push({ event: 'location_verified', at: t + 4000, by: 'CleanLoop System' });
-  h.push({ event: 'ward_identified', at: t + 6000, by: 'CleanLoop System' });
+  h.push({ event: 'location_verified', at: t + 4000, by: 'CivicSense System' });
+  h.push({ event: 'ward_identified', at: t + 6000, by: 'CivicSense System' });
   if (status === 'pending') {
-    h.push({ event: 'review_queued', at: t + 9000, by: 'CleanLoop System' });
+    h.push({ event: 'review_queued', at: t + 9000, by: 'CivicSense System' });
     return { history: h, updatedAt: t + 9000 };
   }
-  h.push({ event: 'routed', at: t + 60000, by: 'CleanLoop System', status: 'assigned', note: `Ward Office ${c.zone}` });
+  h.push({ event: 'routed', at: t + 60000, by: 'CivicSense System', status: 'assigned', note: `Ward Office ${c.zone}` });
   t += MIN + r() * 5 * HOUR;
   const done = (s: Status) => ['in_progress', 'cleanup_completed', 'awaiting_verification', 'verified_resolved'].includes(s);
   if (status === 'assigned') {
@@ -132,7 +132,7 @@ export function buildHistory(
   if (status === 'awaiting_verification' || status === 'verified_resolved') {
     t += 40 * MIN + r() * 3 * HOUR;
     h.push({ event: 'cleanup_completed', at: t, by: crewId, status: 'cleanup_completed' });
-    h.push({ event: 'verification_queued', at: t + 2000, by: 'CleanLoop System', status: 'awaiting_verification', note: verifierId });
+    h.push({ event: 'verification_queued', at: t + 2000, by: 'CivicSense System', status: 'awaiting_verification', note: verifierId });
   }
   if (status === 'verified_resolved') {
     t += 30 * MIN + r() * 7 * HOUR;

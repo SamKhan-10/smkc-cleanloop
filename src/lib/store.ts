@@ -91,7 +91,7 @@ const safeStorage = {
     } catch (e) {
       if (!warned) {
         warned = true;
-        console.warn('CleanLoop: browser storage is full or unavailable; recent changes are kept for this session only.', e);
+        console.warn('CivicSense: browser storage is full or unavailable; recent changes are kept for this session only.', e);
       }
     }
   },
@@ -199,10 +199,10 @@ export const useStore = create<State & Actions>()(
             demo: false,
             history: [
               { event: 'submitted', at: now, by: d.citizenId, status: 'pending' },
-              { event: 'location_verified', at: now, by: 'CleanLoop System' },
-              { event: 'ward_identified', at: now, by: 'CleanLoop System' },
-              { event: 'ai_validated', at: now, by: 'CleanLoop System', note: d.ai.duplicates.length ? d.ai.duplicates.join(', ') : undefined },
-              { event: 'routed', at: now, by: 'CleanLoop System', status: 'assigned', note: `Ward Office ${ward.zone}` },
+              { event: 'location_verified', at: now, by: 'CivicSense System' },
+              { event: 'ward_identified', at: now, by: 'CivicSense System' },
+              { event: 'ai_validated', at: now, by: 'CivicSense System', note: d.ai.duplicates.length ? d.ai.duplicates.join(', ') : undefined },
+              { event: 'routed', at: now, by: 'CivicSense System', status: 'assigned', note: `Ward Office ${ward.zone}` },
             ],
           };
           const complaints = [c, ...s.complaints];
@@ -239,7 +239,7 @@ export const useStore = create<State & Actions>()(
           if (!c) return;
           patch(id, (x) => {
             const done = transition(x, 'cleanup_completed', 'cleanup_completed', x.crewId ?? by);
-            return transition(done, 'awaiting_verification', 'verification_queued', 'CleanLoop System', `Ground Verification · Ward ${x.zone}`);
+            return transition(done, 'awaiting_verification', 'verification_queued', 'CivicSense System', `Ground Verification · Ward ${x.zone}`);
           });
           notify({ audience: 'citizen', citizenId: c.citizenId, complaintId: id, kind: 'cleanup_done' });
         },
@@ -308,9 +308,20 @@ export const useStore = create<State & Actions>()(
       };
     },
     {
-      name: 'smkc-cleanloop',
-      version: 1,
+      name: 'smkc-cleanloop', // internal storage key kept so existing demo data is preserved
+      version: 2,
       storage: createJSONStorage(() => safeStorage),
+      // v2: product renamed to CivicSense — update stored user-visible strings (audit actor, demo email).
+      migrate: (persisted, version) => {
+        if (version < 2 && persisted) {
+          return JSON.parse(
+            JSON.stringify(persisted)
+              .split('CleanLoop System').join('CivicSense System')
+              .split('citizen.demo@cleanloop.in').join('citizen.demo@civicsense.in'),
+          );
+        }
+        return persisted as State & Actions;
+      },
     },
   ),
 );

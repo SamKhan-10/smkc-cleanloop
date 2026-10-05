@@ -18,7 +18,7 @@ export function AiPanel({ ai, priority, dark, compact, showPriority = true }: { 
   return (
     <div>
       <div className="mb-3 flex items-center justify-between gap-2">
-        <div className={clsx('text-sm font-bold', dark ? 'text-white' : 'text-ink-900')}>CleanLoop Intelligence</div>
+        <div className={clsx('text-sm font-bold', dark ? 'text-white' : 'text-ink-900')}>CivicSense Intelligence</div>
         <DemoTag label="Simulated AI values" />
       </div>
       <div className={clsx('grid gap-3', compact ? 'grid-cols-2' : 'sm:grid-cols-2')}>

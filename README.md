@@ -1,4 +1,4 @@
-# SMKC CleanLoop
+# CivicSense
 
 **REPORT. RESOLVE. VERIFY. PREVENT.**
 
@@ -50,6 +50,6 @@ The public **Ward Status** page shows each ward's cleanliness status as 3–5 st
 
 ## Tech
 
-React 18 + TypeScript, Vite, Tailwind CSS, React Router, Zustand (persisted store / mock service layer), Leaflet (OpenStreetMap/CARTO tiles), Recharts, lucide-react. Languages: English, मराठी, हिंदी.
+React 18 + TypeScript, Vite, Tailwind CSS, React Router, Zustand (persisted store / mock service layer), Leaflet (OpenStreetMap standard tiles — no API key), Recharts, lucide-react. Languages: English, मराठी, हिंदी.
 
 Key modules: `src/lib/store.ts` (state & actions), `src/lib/seed.ts` (demo data), `src/lib/ai.ts` (priority, duplicate and hotspot signals), `src/lib/hotspots.ts` (repeat-hotspot rule), `src/lib/route.ts` (nearest-neighbour + 2-opt routing), `src/lib/wardStatus.ts` (ward cleanliness status), `src/components/GeoCamera.tsx` (geo-tagged camera).

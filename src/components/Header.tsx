@@ -33,7 +33,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-[1000] border-b border-ink-100 bg-white/90 backdrop-blur-md">
       <div className="container-x flex h-16 items-center justify-between gap-3">
-        <Link to="/" className="shrink-0" aria-label="CleanLoop home">
+        <Link to="/" className="shrink-0" aria-label="CivicSense home">
           <Logo />
         </Link>
 

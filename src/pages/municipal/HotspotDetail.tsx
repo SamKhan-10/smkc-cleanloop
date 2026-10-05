@@ -246,7 +246,7 @@ export default function HotspotDetail() {
                     ))}
                   </ul>
                 )}
-                <p className="mt-3 text-[11px] text-ink-400">CleanLoop provides evidence support only. No fines or deployments are issued automatically; all actions require municipal review and approval.</p>
+                <p className="mt-3 text-[11px] text-ink-400">CivicSense provides evidence support only. No fines or deployments are issued automatically; all actions require municipal review and approval.</p>
               </div>
             </Panel>
           )}
@@ -260,7 +260,7 @@ export default function HotspotDetail() {
         </div>
         <div className="mt-4 space-y-3 rounded-2xl border border-ink-200 bg-ink-50/50 p-5 text-sm leading-relaxed text-ink-700">
           <p><b>Subject:</b> Recommendation for notice — repeated waste dumping at {h.locationName}, Ward {h.wardNo}</p>
-          <p>CleanLoop has recorded <b>{h.complaintIds.length} geo-verified incidents</b> within a 150 m radius of {fmtCoord(h.lat, h.lng)} between {fmtDate(incidents[incidents.length - 1].createdAt)} and {fmtDate(incidents[0].createdAt)}. {verifiedCount} incidents were cleaned and independently verified by ground verifiers.</p>
+          <p>CivicSense has recorded <b>{h.complaintIds.length} geo-verified incidents</b> within a 150 m radius of {fmtCoord(h.lat, h.lng)} between {fmtDate(incidents[incidents.length - 1].createdAt)} and {fmtDate(incidents[0].createdAt)}. {verifiedCount} incidents were cleaned and independently verified by ground verifiers.</p>
           <p><b>Identified root cause:</b> {ROOT_CAUSES.find((r) => r.key === (root || h.investigation.rootCause))?.label ?? 'Under investigation'}.</p>
           <p>It is recommended that the competent authority review the attached evidence and, if found appropriate, issue a notice to the responsible party as per applicable municipal rules.</p>
           <p className="text-xs text-ink-500">Evidence package: {incidents.map((c) => c.id).join(', ')}. Citizen identities are withheld (Citizen IDs only).</p>

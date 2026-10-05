@@ -229,7 +229,7 @@ export default function Home() {
                 <div className="font-display text-lg font-bold text-white">GPS</div>geo-verified evidence
               </div>
               <div className="rounded-xl bg-white/5 p-3">
-                <div className="font-display text-lg font-bold text-white">1 trip</div>for nearby issues
+                <div className="font-display text-lg font-bold text-white">Live</div>status tracking
               </div>
               <div className="rounded-xl bg-white/5 p-3">
                 <div className="font-display text-lg font-bold text-white">Before / After</div>independent proof
@@ -288,7 +288,7 @@ export default function Home() {
         <div className="rounded-3xl border border-ink-100 bg-white p-6 shadow-card sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <div className="eyebrow text-brand-600">CleanLoop Intelligence</div>
+              <div className="eyebrow text-brand-600">CivicSense Intelligence</div>
               <h2 className="mt-1 text-2xl font-bold">Evidence-aware prioritization, built in.</h2>
             </div>
             <DemoTag label="Simulated model outputs" />

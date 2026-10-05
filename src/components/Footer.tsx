@@ -59,7 +59,7 @@ export function Footer() {
       </div>
       <div className="border-t border-ink-100">
         <div className="container-x flex flex-col gap-2 py-5 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
-          <span>© 2026 SMKC CleanLoop · SMKC Civic Innovation Forum 2026</span>
+          <span>© 2026 CivicSense · SMKC Civic Innovation Forum 2026</span>
           <span className="max-w-xl sm:text-right">{t('ft.demo')}</span>
         </div>
       </div>

@@ -82,7 +82,7 @@ export function StaffAuth({ mode }: { mode: 'municipal' | 'verifier' }) {
           <Link to="/" className="flex items-center gap-3">
             <LogoMark className="h-11 w-11" />
             <div>
-              <div className="font-display text-lg font-extrabold">CleanLoop</div>
+              <div className="font-display text-lg font-extrabold">CivicSense</div>
               <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-400">Sangli · Miraj · Kupwad</div>
             </div>
           </Link>
@@ -107,7 +107,7 @@ export function StaffAuth({ mode }: { mode: 'municipal' | 'verifier' }) {
 
         <div className="mx-auto w-full max-w-lg">
           <div className="mb-5 flex items-center justify-between lg:hidden">
-            <Link to="/" className="flex items-center gap-2"><LogoMark className="h-9 w-9" /><span className="font-display font-extrabold">CleanLoop</span></Link>
+            <Link to="/" className="flex items-center gap-2"><LogoMark className="h-9 w-9" /><span className="font-display font-extrabold">CivicSense</span></Link>
             <span className="text-[10px] font-bold uppercase tracking-wider text-ink-400">{mode === 'verifier' ? 'Field Verifier' : 'Command Center'}</span>
           </div>
           <div className="rounded-3xl border border-white/10 bg-ink-900/80 p-6 shadow-pop backdrop-blur sm:p-7">
@@ -130,7 +130,7 @@ export function StaffAuth({ mode }: { mode: 'municipal' | 'verifier' }) {
                   setTimeout(() => {
                     setBusy(false);
                     setStep('otp');
-                    toast('SMS · CleanLoop Staff', `Your staff verification code is ${DEMO_OTP}.`, 'info');
+                    toast('SMS · CivicSense Staff', `Your staff verification code is ${DEMO_OTP}.`, 'info');
                   }, 800);
                 }}
               >

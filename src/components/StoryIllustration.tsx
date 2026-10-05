@@ -1,7 +1,7 @@
 /** Custom illustration: citizen geo-tagged capture → optimized municipal cleanup → independent verification. */
 export function StoryIllustration({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 1200 400" className={className} role="img" aria-label="A citizen captures geo-tagged evidence of a garbage point, a municipal crew cleans it via an optimized route, and a ground verifier confirms the clean street.">
+    <svg viewBox="0 0 1200 400" className={className} role="img" aria-label="A citizen captures geo-tagged evidence of a garbage point, a municipal crew cleans it, and a ground verifier confirms the clean street.">
       <defs>
         <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#e3f1ec" />
@@ -85,17 +85,6 @@ export function StoryIllustration({ className }: { className?: string }) {
 
       {/* PANEL 2 — route + truck */}
       <g>
-        <path d="M470 150 C 520 90, 600 170, 650 110 S 760 140, 790 90" fill="none" stroke="#2563eb" strokeWidth="4" strokeDasharray="10 9" strokeLinecap="round" />
-        {[[470, 150, '1'], [560, 128, '2'], [650, 110, '3'], [790, 90, '4']].map(([x, y, n]) => (
-          <g key={n as string}>
-            <circle cx={x as number} cy={y as number} r="14" fill={n === '1' ? '#dc2626' : n === '4' ? '#e3b008' : '#ea7a12'} stroke="#fff" strokeWidth="3" />
-            <text x={x as number} y={(y as number) + 4} textAnchor="middle" fontSize="12" fontWeight="800" fill="#fff" fontFamily="Inter">{n}</text>
-          </g>
-        ))}
-        <g transform="translate(560 40)">
-          <rect width="170" height="40" rx="12" fill="#fff" filter="url(#sh)" />
-          <text x="14" y="25" fontSize="11.5" fontWeight="800" fill="#1d4ed8" fontFamily="Inter">OPTIMIZED ROUTE · 4 STOPS</text>
-        </g>
         {/* truck */}
         <g transform="translate(500 228)" filter="url(#sh)">
           <rect x="0" y="0" width="170" height="70" rx="10" fill="#1b7e68" />
@@ -148,7 +137,7 @@ export function StoryIllustration({ className }: { className?: string }) {
       {/* step labels */}
       {[
         [170, '1 · Citizen captures geo-tagged evidence'],
-        [640, '2 · Optimized municipal cleanup'],
+        [640, '2 · Municipal cleanup'],
         [1040, '3 · Independent ground verification'],
       ].map(([x, l]) => (
         <g key={l as string} transform={`translate(${x} 372)`}>

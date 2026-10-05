@@ -112,7 +112,7 @@ export function GeoCamera({ mode, onCapture, target, sceneKind = 'garbage', scen
     }
     const at = Date.now();
     burnWatermark(ctx, W, H, {
-      title: mode === 'verifier' ? `CLEANLOOP · VERIFICATION ${complaintId ?? ''} · ${verifierId ?? ''}` : 'CLEANLOOP · GEO-VERIFIED EVIDENCE',
+      title: mode === 'verifier' ? `CIVICSENSE · VERIFICATION ${complaintId ?? ''} · ${verifierId ?? ''}` : 'CIVICSENSE · GEO-VERIFIED EVIDENCE',
       place: `${geo.info.locationName}, Ward ${geo.info.ward.no} · Sangli–Miraj–Kupwad`,
       coords: `GPS ${fmtCoord(geo.lat, geo.lng)} · ±${geo.accuracy ?? 8} m${geo.simulated ? ' · simulated' : ''}`,
       time: new Date(at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'medium' }),

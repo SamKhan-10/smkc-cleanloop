@@ -35,7 +35,7 @@ export function CitizenAuth({ onDone, context }: { onDone?: () => void; context?
     setTimeout(() => {
       setBusy(false);
       setStep('otp');
-      toast('SMS · CleanLoop', `Your CleanLoop verification code is ${DEMO_OTP}. Valid for 10 minutes.`, 'info');
+      toast('SMS · CivicSense', `Your CivicSense verification code is ${DEMO_OTP}. Valid for 10 minutes.`, 'info');
     }, 900);
   };
 
@@ -137,7 +137,7 @@ export function CitizenAuth({ onDone, context }: { onDone?: () => void; context?
                 <button className="flex items-center gap-1 text-ink-500 hover:text-ink-800" onClick={() => setStep('form')}>
                   <ArrowLeft className="h-3.5 w-3.5" /> {t('common.back')}
                 </button>
-                <button className="text-brand-700 hover:underline" onClick={() => toast('SMS · CleanLoop', `Your CleanLoop verification code is ${DEMO_OTP}.`, 'info')}>
+                <button className="text-brand-700 hover:underline" onClick={() => toast('SMS · CivicSense', `Your CivicSense verification code is ${DEMO_OTP}.`, 'info')}>
                   {t('auth.resend')}
                 </button>
               </div>

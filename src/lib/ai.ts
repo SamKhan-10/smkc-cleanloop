@@ -3,7 +3,7 @@ import { haversineM, nearestLandmark } from './geo';
 import { mulberry32 } from './random';
 
 /**
- * CleanLoop Intelligence layer (simulated).
+ * CivicSense Intelligence layer (simulated).
  * In a live deployment the image model would run server-side; here the image signal is
  * simulated deterministically, while duplicate, hotspot and priority logic run on real app data.
  */

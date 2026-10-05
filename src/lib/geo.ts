@@ -2,7 +2,7 @@ import type { Landmark, Ward, Zone, ZoneId } from './types';
 import { mulberry32 } from './random';
 
 /**
- * Ward geometry used by CleanLoop's demo map layer.
+ * Ward geometry used by CivicSense's demo map layer.
  * Boundaries are simplified, illustrative polygons covering the Sangli–Miraj–Kupwad area —
  * they are NOT official SMKC ward boundaries.
  */
