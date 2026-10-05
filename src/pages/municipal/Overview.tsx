@@ -45,7 +45,7 @@ export default function Overview() {
     <div>
       <PageHead
         title="SMKC Municipal Command Center"
-        sub={`Welcome back · ${staff.staffId} · Ward ${staff.zone} office · ${new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}`}
+        sub={`Welcome back · ${staff.staffId} · Zone ${staff.zone} office · ${new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}`}
         right={
           <div className="flex gap-2">
             <Link to="/municipal/routes" className="btn-primary"><RouteIcon className="h-4 w-4" /> Optimize Route</Link>
@@ -192,7 +192,7 @@ export default function Overview() {
         ))}
       </div>
       <Panel className="mt-4 p-4">
-        <div className="mb-2 text-sm font-bold">Open workload by ward</div>
+        <div className="mb-2 text-sm font-bold">Open workload by zone</div>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={wardData} margin={{ top: 8, right: 8, left: -20, bottom: 0 }} barCategoryGap="30%">

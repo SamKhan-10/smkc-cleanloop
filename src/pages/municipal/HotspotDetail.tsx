@@ -57,7 +57,7 @@ export default function HotspotDetail() {
               {h.status === 'monitoring' ? 'REPEAT HOTSPOT · MONITORING' : '🚨 REPEAT HOTSPOT DETECTED'} · {h.id}
             </div>
             <h1 className="mt-1 font-display text-2xl font-extrabold sm:text-3xl">{h.locationName}</h1>
-            <div className="mt-1 text-sm text-white/80">Ward {h.wardNo} · Ward Office {h.zone} · {fmtCoord(h.lat, h.lng)}</div>
+            <div className="mt-1 text-sm text-white/80">Ward {h.wardNo} · Zone {h.zone} · {fmtCoord(h.lat, h.lng)}</div>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl bg-white/15 px-4 py-2.5"><div className="font-display text-2xl font-extrabold">{h.complaintIds.length}</div><div className="text-[10px] uppercase tracking-wider text-white/80">Verified incidents</div></div>
@@ -230,7 +230,7 @@ export default function HotspotDetail() {
                   <button className="btn-secondary justify-start" onClick={() => setNotice(true)}>
                     <FileText className="h-4 w-4" /> Generate Notice Recommendation {enfDone('notice') && <CheckCircle2 className="ml-auto h-4 w-4 text-emerald-600" />}
                   </button>
-                  <button className="btn-secondary justify-start" disabled={!!enfDone('review')} onClick={() => { addEnf(h.id, 'review', by); toast('Forwarded for municipal review', `${h.id} evidence package sent to Ward ${h.zone} administration.`, 'info'); }}>
+                  <button className="btn-secondary justify-start" disabled={!!enfDone('review')} onClick={() => { addEnf(h.id, 'review', by); toast('Forwarded for municipal review', `${h.id} evidence package sent to Zone ${h.zone} administration.`, 'info'); }}>
                     <Send className="h-4 w-4" /> Forward for Municipal Review {enfDone('review') && <CheckCircle2 className="ml-auto h-4 w-4 text-emerald-600" />}
                   </button>
                   <button className="btn-secondary h-auto justify-start !whitespace-normal py-3 text-left" disabled={!!enfDone('surveillance')} onClick={() => { addEnf(h.id, 'surveillance', by); toast('Surveillance recommendation recorded', 'Subject to municipal approval.', 'info'); }}>

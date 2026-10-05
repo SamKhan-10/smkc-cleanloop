@@ -40,7 +40,7 @@ export default function Hotspots() {
                     <div className="min-w-0">
                       <div className="mono text-xs font-bold text-ink-400">{h.id}</div>
                       <div className="font-display text-lg font-bold">{h.locationName}</div>
-                      <div className="flex items-center gap-1 text-xs text-ink-500"><MapPin className="h-3.5 w-3.5" /> Ward {h.wardNo} · Ward Office {h.zone}</div>
+                      <div className="flex items-center gap-1 text-xs text-ink-500"><MapPin className="h-3.5 w-3.5" /> Ward {h.wardNo} · Zone {h.zone}</div>
                     </div>
                     <span className={clsx('shrink-0 rounded-lg px-2 py-1 text-[9.5px] font-bold uppercase leading-tight', st.tone)}>{st.label}</span>
                   </div>

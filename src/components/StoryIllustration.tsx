@@ -1,7 +1,7 @@
 /** Custom illustration: citizen geo-tagged capture → optimized municipal cleanup → independent verification. */
 export function StoryIllustration({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 1200 400" className={className} role="img" aria-label="A citizen captures geo-tagged evidence of a garbage point, a municipal crew cleans it, and a ground verifier confirms the clean street.">
+    <svg viewBox="0 0 1200 400" className={className} role="img" aria-label="A citizen files a geo-verified report, the municipal crew cleans nearby issues on one optimized route, and a ground verifier confirms the clean street with fresh evidence.">
       <defs>
         <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#e3f1ec" />
@@ -78,13 +78,25 @@ export function StoryIllustration({ className }: { className?: string }) {
         </g>
         <g transform="translate(36 40)">
           <rect width="190" height="54" rx="14" fill="#fff" filter="url(#sh)" />
-          <text x="16" y="23" fontSize="11" fontWeight="800" fill="#176556" fontFamily="Inter" letterSpacing="1">GEO-TAGGED · WARD 12</text>
-          <text x="16" y="41" fontSize="11" fill="#515c73" fontFamily="ui-monospace,monospace">16.8505° N, 74.6493° E</text>
+          <text x="16" y="23" fontSize="11.5" fontWeight="800" fill="#176556" fontFamily="Inter" letterSpacing="1">GEO-VERIFIED</text>
+          <text x="16" y="41" fontSize="11" fill="#515c73" fontFamily="Inter">Location + timestamp</text>
         </g>
       </g>
 
       {/* PANEL 2 — route + truck */}
       <g>
+        <path d="M470 150 C 520 90, 600 170, 650 110 S 760 140, 790 90" fill="none" stroke="#2563eb" strokeWidth="4" strokeDasharray="10 9" strokeLinecap="round" />
+        {[[470, 150, '#dc2626'], [560, 128, '#ea7a12'], [650, 110, '#ea7a12'], [790, 90, '#e3b008']].map(([x, y, c], i) => (
+          <g key={i}>
+            <circle cx={x as number} cy={y as number} r="14" fill={c as string} stroke="#fff" strokeWidth="3" />
+            <text x={x as number} y={(y as number) + 4} textAnchor="middle" fontSize="12" fontWeight="800" fill="#fff" fontFamily="Inter">{i + 1}</text>
+          </g>
+        ))}
+        <g transform="translate(540 30)" filter="url(#sh)">
+          <rect width="200" height="54" rx="14" fill="#fff" />
+          <text x="16" y="23" fontSize="11.5" fontWeight="800" fill="#1d4ed8" fontFamily="Inter" letterSpacing="1">OPTIMIZED CLEANUP</text>
+          <text x="16" y="41" fontSize="11" fill="#515c73" fontFamily="Inter">Nearby issues grouped</text>
+        </g>
         {/* truck */}
         <g transform="translate(500 228)" filter="url(#sh)">
           <rect x="0" y="0" width="170" height="70" rx="10" fill="#1b7e68" />
@@ -125,20 +137,20 @@ export function StoryIllustration({ className }: { className?: string }) {
           <rect x="26" y="18" width="18" height="6" rx="3" fill="#155146" transform="rotate(-30 26 18)" />
           <rect x="38" y="-6" width="16" height="26" rx="3" fill="#13161c" />
         </g>
-        <g transform="translate(940 64)" filter="url(#sh)">
-          <rect width="216" height="76" rx="16" fill="#fff" />
+        <g transform="translate(930 64)" filter="url(#sh)">
+          <rect width="236" height="76" rx="16" fill="#fff" />
           <circle cx="36" cy="38" r="20" fill="#16a34a" />
           <path d="M26 38 l7 7 14 -15" fill="none" stroke="#fff" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
-          <text x="66" y="34" fontSize="13" fontWeight="800" fill="#14532d" fontFamily="Inter">VERIFIED RESOLVED</text>
-          <text x="66" y="53" fontSize="10.5" fill="#515c73" fontFamily="Inter">Fresh GPS photo · 14 m from site</text>
+          <text x="66" y="34" fontSize="13" fontWeight="800" fill="#14532d" fontFamily="Inter">VERIFIED RESOLUTION</text>
+          <text x="66" y="53" fontSize="10.5" fill="#515c73" fontFamily="Inter">Fresh ground evidence</text>
         </g>
       </g>
 
       {/* step labels */}
       {[
-        [170, '1 · Citizen captures geo-tagged evidence'],
-        [640, '2 · Municipal cleanup'],
-        [1040, '3 · Independent ground verification'],
+        [170, '1 · Geo-verified report'],
+        [640, '2 · Optimized cleanup route'],
+        [1040, '3 · Ground verification'],
       ].map(([x, l]) => (
         <g key={l as string} transform={`translate(${x} 372)`}>
           <rect x="-150" y="-17" width="300" height="30" rx="15" fill="#0b2621" opacity=".82" />

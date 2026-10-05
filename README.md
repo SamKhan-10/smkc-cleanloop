@@ -13,7 +13,12 @@ npm run build      # type-check + production build into dist/
 npm run preview    # serve the production build
 ```
 
-The build is a static site (hash routing, relative asset paths) and can be hosted on any static host, or opened from `dist/` via `npm run preview`.
+The build is a static site using hash routing (`/#/report`, `/#/municipal`, …).
+
+### Deploying on Vercel
+- Framework preset: **Vite** · Build command: `npm run build` · Output directory: `dist` · No environment variables required.
+- `vercel.json` rewrites unknown paths to `index.html`, and the app converts plain paths (e.g. `/report`) to their hash routes, so direct links work.
+- Maps use OpenStreetMap standard tiles via Leaflet — no API key.
 
 ## The closed loop
 
@@ -36,6 +41,10 @@ Citizen report → geo-verified evidence → validation → ward identification 
 - **GPS:** uses device geolocation when it is inside SMKC limits; otherwise (denied, unavailable, or outside the city) a clearly-labelled simulated in-city position is used. The default simulated position is **Kupwad Weekly Bazaar (Ward 12)**, which already has two earlier reports — the next report there crosses the threshold and triggers **REPEAT HOTSPOT DETECTED**.
 - The first new complaint created is **GVP-1284**.
 - "Reset demo data" in the footer restores the initial dataset.
+
+## Naming
+
+Wards are numbered **Ward 1–16**. The four ward offices are labelled **Zone A–D** (A Sangli City · B Vishrambag & Sangli South · C Kupwad · D Miraj).
 
 ## Ward Cleanliness Status
 

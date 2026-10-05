@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Siren, ArrowRight } from 'lucide-react';
 import { useStore } from '../../lib/store';
+import { zoneById } from '../../lib/geo';
+import type { ZoneId } from '../../lib/types';
 import { bucketOf, PRIORITY_RANK } from '../../lib/status';
 import { fmtWhen } from '../../lib/format';
 import { CREWS } from '../../lib/seed';
@@ -71,8 +73,8 @@ export default function Complaints() {
               <input className="input !py-2 pl-9" placeholder="ID, location, Citizen ID, ward no." value={q} onChange={(e) => setQ(e.target.value)} />
             </div>
             <select className="input !w-auto !py-2" value={zone} onChange={(e) => setZone(e.target.value)}>
-              <option value="all">All wards</option>
-              {['A', 'B', 'C', 'D'].map((z) => <option key={z} value={z}>Ward {z}</option>)}
+              <option value="all">All zones</option>
+              {['A', 'B', 'C', 'D'].map((z) => <option key={z} value={z}>Zone {z} · {zoneById(z as ZoneId).area}</option>)}
             </select>
             <select className="input !w-auto !py-2" value={prio} onChange={(e) => setPrio(e.target.value)}>
               <option value="all">All priorities</option>

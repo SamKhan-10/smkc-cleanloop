@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Route, Routes, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ClipboardList, Route as RouteIcon, Siren, BarChart3, LogOut, Globe2, Menu, X, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, ClipboardList, Route as RouteIcon, Siren, BarChart3, LogOut, Globe2, Menu, X, ShieldCheck, Bell } from 'lucide-react';
+import { AccountMenu } from '../../components/AccountMenu';
+import MunicipalNotifications from './Notifications';
 import clsx from 'clsx';
 import { useStaff, useStore } from '../../lib/store';
 import { StaffAuth, ROLE_LABEL } from '../../components/StaffAuth';
@@ -20,6 +22,7 @@ export default function MunicipalApp() {
   const staff = useStaff();
   const logout = useStore((s) => s.logoutStaff);
   const detected = useStore((s) => s.hotspots.filter((h) => h.status === 'detected').length);
+  const unreadStaff = useStore((s) => s.notifications.filter((n) => n.audience === 'staff' && !n.read).length);
   const [open, setOpen] = useState(false);
   const loc = useLocation();
   useEffect(() => {
@@ -72,7 +75,7 @@ export default function MunicipalApp() {
         </div>
         <div className="mt-2 flex flex-wrap gap-1">
           <span className="rounded-md bg-brand-500/20 px-1.5 py-0.5 text-[10px] font-bold text-brand-200">{ROLE_LABEL[staff.role]}</span>
-          <span className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-ink-300">Ward {staff.zone}</span>
+          <span className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-ink-300">Zone {staff.zone}</span>
           <span className="flex items-center gap-0.5 rounded-md bg-emerald-500/15 px-1.5 py-0.5 text-[10px] font-bold text-emerald-300"><ShieldCheck className="h-3 w-3" />Verified</span>
         </div>
         <div className="mt-3 flex gap-2">
@@ -102,7 +105,18 @@ export default function MunicipalApp() {
           <div className="flex items-center gap-1">
             <DemoTag className="mr-2 hidden sm:inline-flex" />
             <LanguageSelect />
-            <NotificationBell audience="staff" linkBase="/municipal/complaints" />
+            <NotificationBell audience="staff" linkBase="/municipal/notifications" />
+            <AccountMenu
+              title={ROLE_LABEL[staff.role]}
+              subtitle={`${staff.staffId} · Zone ${staff.zone}`}
+              buttonLabel={staff.staffId}
+              items={[
+                { to: '/municipal', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
+                { to: '/municipal/notifications', label: 'Notifications', icon: <Bell className="h-4 w-4" />, badge: unreadStaff },
+              ]}
+              onSignOut={logout}
+              signOutLabel="Sign out"
+            />
           </div>
         </header>
         <main key={loc.pathname} className="page-enter p-4 sm:p-6">
@@ -114,6 +128,7 @@ export default function MunicipalApp() {
             <Route path="hotspots" element={<Hotspots />} />
             <Route path="hotspots/:id" element={<HotspotDetail />} />
             <Route path="wards" element={<WardAnalytics />} />
+            <Route path="notifications" element={<MunicipalNotifications />} />
             <Route path="*" element={<Overview />} />
           </Routes>
         </main>

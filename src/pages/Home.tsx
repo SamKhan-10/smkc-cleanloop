@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Camera, Map as MapIcon, MapPin, Satellite, Clock, Loader2, ShieldCheck, ArrowRight, ArrowDown, Eye, Copy, Route, BadgeCheck, Repeat,
+  Camera, Map as MapIcon, MapPin, Satellite, Clock, Loader2, ShieldCheck, ArrowRight, Eye, BadgeCheck, ClipboardList,
   UserRound, Building2, ScanSearch, Gauge, Radar, Layers, Sparkles, Smartphone,
 } from 'lucide-react';
 import { useT } from '../i18n';
@@ -76,6 +76,15 @@ function CameraPreview() {
   );
 }
 
+const PROVIDES: [typeof Camera, string, string][] = [
+  [Camera, 'geo', 'bg-brand-50 text-brand-700'],
+  [ScanSearch, 'validation', 'bg-sky-50 text-sky-700'],
+  [ClipboardList, 'tracking', 'bg-indigo-50 text-indigo-700'],
+  [BadgeCheck, 'verification', 'bg-violet-50 text-violet-700'],
+  [Radar, 'hotspots', 'bg-red-50 text-red-600'],
+  [Eye, 'monitoring', 'bg-emerald-50 text-emerald-700'],
+];
+
 export default function Home() {
   const t = useT();
   const nav = useNavigate();
@@ -86,8 +95,6 @@ export default function Home() {
   const hsIds = new Set(hotspots.flatMap((h) => h.complaintIds));
   const latest = complaints.slice(0, 4);
 
-  const loop = ['report', 'assign', 'optimize', 'clean', 'verify', 'monitor', 'prevent'];
-  const loopIcons = [Camera, Building2, Route, Sparkles, BadgeCheck, Eye, ShieldCheck];
 
   return (
     <div>
@@ -175,66 +182,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROBLEM → SOLUTION */}
+      {/* WHAT CIVICSENSE PROVIDES */}
       <section className="container-x py-14">
         <div className="overflow-hidden rounded-3xl border border-ink-100 bg-white shadow-card">
           <StoryIllustration className="h-auto w-full" />
         </div>
-        <div className="mt-8 grid items-stretch gap-5 lg:grid-cols-[1fr_auto_1.15fr]">
-          <div className="card p-6">
-            <div className="eyebrow text-red-600">{t('home.problem')}</div>
-            <ul className="mt-4 space-y-3">
-              {[
-                [Eye, 'home.p1'],
-                [Copy, 'home.p2'],
-                [MapPin, 'home.p3'],
-                [BadgeCheck, 'home.p4'],
-                [Repeat, 'home.p5'],
-              ].map(([I, k]) => {
-                const Icon = I as typeof Eye;
-                return (
-                  <li key={k as string} className="flex items-start gap-3 text-sm text-ink-700">
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-50 text-red-600">
-                      <Icon className="h-4 w-4" />
-                    </span>
-                    <span className="pt-1.5">{t(k as string)}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className="flex items-center justify-center">
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-700 text-white shadow-lift">
-              <ArrowDown className="h-5 w-5 lg:-rotate-90" />
-            </span>
-          </div>
-          <div className="card bg-gradient-to-br from-brand-800 to-brand-950 p-6 text-white">
-            <div className="eyebrow text-brand-300">{t('home.solution')}</div>
-            <p className="mt-2 text-sm text-brand-100">{t('home.solutionSub')}</p>
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              {loop.map((k, i) => {
-                const Icon = loopIcons[i];
-                return (
-                  <span key={k} className="flex items-center gap-2">
-                    <span className="flex items-center gap-1.5 rounded-xl bg-white/10 px-3 py-2 text-sm font-semibold ring-1 ring-white/10">
-                      <Icon className="h-4 w-4 text-brand-300" /> {t(`loop.${k}`)}
-                    </span>
-                    {i < loop.length - 1 && <ArrowRight className="h-4 w-4 text-brand-400" />}
-                  </span>
-                );
-              })}
-            </div>
-            <div className="mt-6 grid grid-cols-3 gap-3 text-center text-[11px] text-brand-100">
-              <div className="rounded-xl bg-white/5 p-3">
-                <div className="font-display text-lg font-bold text-white">GPS</div>geo-verified evidence
+        <div className="mt-10">
+          <div className="eyebrow text-brand-600">{t('home.providesEyebrow')}</div>
+          <h2 className="mt-1 text-2xl font-bold">{t('home.providesTitle')}</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {PROVIDES.map(([Icon, key, tone]) => (
+              <div key={key} className="card flex gap-4 p-5 transition hover:shadow-lift">
+                <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${tone}`}>
+                  <Icon className="h-5 w-5" />
+                </span>
+                <div className="min-w-0">
+                  <div className="font-display text-[15px] font-bold text-ink-900">{t(`home.pv.${key}`)}</div>
+                  <p className="mt-1 text-sm text-ink-500">{t(`home.pv.${key}Desc`)}</p>
+                </div>
               </div>
-              <div className="rounded-xl bg-white/5 p-3">
-                <div className="font-display text-lg font-bold text-white">Live</div>status tracking
-              </div>
-              <div className="rounded-xl bg-white/5 p-3">
-                <div className="font-display text-lg font-bold text-white">Before / After</div>independent proof
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

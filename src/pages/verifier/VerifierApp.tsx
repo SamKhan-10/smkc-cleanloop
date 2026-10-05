@@ -78,7 +78,7 @@ function Dashboard() {
   return (
     <Shell>
       <div className="rounded-2xl bg-gradient-to-br from-violet-700 to-violet-900 p-5 text-white shadow-lift">
-        <div className="text-xs font-semibold uppercase tracking-wider text-violet-200">Ground Verifier · Ward {v.zone}</div>
+        <div className="text-xs font-semibold uppercase tracking-wider text-violet-200">Ground Verifier · Zone {v.zone}</div>
         <div className="mt-1 font-display text-2xl font-extrabold">Assigned Verifications</div>
         <div className="mt-4 grid grid-cols-3 gap-2 text-center">
           <div className="rounded-xl bg-white/10 p-2.5"><div className="font-display text-2xl font-extrabold">{pending.length}</div><div className="text-[10.5px] text-violet-200">pending</div></div>
@@ -89,13 +89,13 @@ function Dashboard() {
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
         <Segmented value={tab} onChange={setTab} options={[{ value: 'pending', label: 'Pending', count: pending.length }, { value: 'done', label: 'Completed', count: done.length }]} />
-        {tab === 'pending' && <Segmented value={scope} onChange={setScope} options={[{ value: 'mine', label: `Ward ${v.zone}` }, { value: 'all', label: 'All wards' }]} />}
+        {tab === 'pending' && <Segmented value={scope} onChange={setScope} options={[{ value: 'mine', label: `Zone ${v.zone}` }, { value: 'all', label: 'All zones' }]} />}
       </div>
 
       <div className="mt-4 space-y-3">
         {tab === 'pending' &&
           (pending.length === 0 ? (
-            <EmptyState icon={<ClipboardCheck className="h-5 w-5" />} title="No verifications pending" sub={scope === 'mine' ? `Nothing awaiting verification in Ward ${v.zone}. Try “All wards”.` : 'All cleaned sites have been verified.'} action={scope === 'mine' ? <button className="btn-secondary" onClick={() => setScope('all')}>Show all wards</button> : undefined} />
+            <EmptyState icon={<ClipboardCheck className="h-5 w-5" />} title="No verifications pending" sub={scope === 'mine' ? `Nothing awaiting verification in Zone ${v.zone}. Try “All zones”.` : 'All cleaned sites have been verified.'} action={scope === 'mine' ? <button className="btn-secondary" onClick={() => setScope('all')}>Show all zones</button> : undefined} />
           ) : (
             pending.map((c) => (
               <div key={c.id} className="overflow-hidden rounded-2xl border border-ink-200/70 bg-white shadow-card">

@@ -17,10 +17,10 @@ export const CITY_BOUNDS: [[number, number], [number, number]] = [
 export const CITY_CENTER: [number, number] = [16.8405, 74.604];
 
 export const ZONES: Zone[] = [
-  { id: 'A', name: 'Ward A', area: 'Sangli City', depot: { name: 'Ward Office A Depot · Rajwada', lat: 16.8575, lng: 74.566 } },
-  { id: 'B', name: 'Ward B', area: 'Vishrambag & Sangli South', depot: { name: 'Ward Office B Depot · Vishrambag', lat: 16.826, lng: 74.585 } },
-  { id: 'C', name: 'Ward C', area: 'Kupwad', depot: { name: 'Ward Office C Depot · Kupwad', lat: 16.866, lng: 74.62 } },
-  { id: 'D', name: 'Ward D', area: 'Miraj', depot: { name: 'Ward Office D Depot · Miraj', lat: 16.818, lng: 74.645 } },
+  { id: 'A', name: 'Zone A', area: 'Sangli City', depot: { name: 'Zone A Depot · Rajwada', lat: 16.8575, lng: 74.566 } },
+  { id: 'B', name: 'Zone B', area: 'Vishrambag & Sangli South', depot: { name: 'Zone B Depot · Vishrambag', lat: 16.826, lng: 74.585 } },
+  { id: 'C', name: 'Zone C', area: 'Kupwad', depot: { name: 'Zone C Depot · Kupwad', lat: 16.866, lng: 74.62 } },
+  { id: 'D', name: 'Zone D', area: 'Miraj', depot: { name: 'Zone D Depot · Miraj', lat: 16.818, lng: 74.645 } },
 ];
 export const zoneById = (id: ZoneId) => ZONES.find((z) => z.id === id)!;
 

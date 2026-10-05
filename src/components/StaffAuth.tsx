@@ -151,7 +151,7 @@ export function StaffAuth({ mode }: { mode: 'municipal' | 'verifier' }) {
                     {errors.phone && <p className="mt-1 text-xs text-red-400">{errors.phone}</p>}
                   </div>
                   <div>
-                    <label className={label}>Ward Selection</label>
+                    <label className={label}>Zone (Ward Office)</label>
                     <select className={input} value={form.zone} onChange={(e) => setForm({ ...form, zone: e.target.value as ZoneId })}>
                       {ZONES.map((z) => <option key={z.id} value={z.id} className="bg-ink-900">{z.name} · {z.area}</option>)}
                     </select>
@@ -250,7 +250,7 @@ export function StaffAuth({ mode }: { mode: 'municipal' | 'verifier' }) {
                 </div>
                 <div className="mt-3 font-display text-xl font-bold">Verifying municipal credentials…</div>
                 <ul className="mt-5 space-y-3">
-                  {['OTP verified for phone & email', 'Supporting document received (private)', `Ward ${form.zone} office confirmation`, `Role access granted · ${ROLE_LABEL[form.role]}`].map((x, i) => (
+                  {['OTP verified for phone & email', 'Supporting document received (private)', `Zone ${form.zone} office confirmation`, `Role access granted · ${ROLE_LABEL[form.role]}`].map((x, i) => (
                     <li key={x} className={clsx('flex items-center gap-3 text-sm transition', checks > i ? 'text-white' : 'text-ink-500')}>
                       <span className={clsx('grid h-6 w-6 place-items-center rounded-full', checks > i ? 'bg-emerald-500' : 'bg-white/5')}>
                         {checks > i ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : checks === i ? <Loader2 className="h-3.5 w-3.5 animate-spin text-brand-300" /> : null}
@@ -269,7 +269,7 @@ export function StaffAuth({ mode }: { mode: 'municipal' | 'verifier' }) {
                 <div className="mt-3 inline-block rounded-full bg-emerald-500/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-emerald-300 ring-1 ring-emerald-400/30">Verified</div>
                 <div className="mt-3 font-display text-2xl font-bold">{ROLE_LABEL[acc.role]}</div>
                 <div className="mono mt-1 text-lg text-brand-300">{acc.staffId}</div>
-                <div className="mt-1 text-sm text-ink-400">Ward {acc.zone} · {acc.department}</div>
+                <div className="mt-1 text-sm text-ink-400">Zone {acc.zone} · {acc.department}</div>
                 <button className="btn-accent btn-lg mt-6 w-full" onClick={() => loginStaff({ ...acc, verification: 'verified' })}>
                   <Building2 className="h-5 w-5" /> {mode === 'verifier' ? 'Open Field Verifier' : 'Enter Command Center'}
                 </button>

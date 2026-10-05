@@ -29,7 +29,7 @@ export default function WardAnalytics() {
 
   return (
     <div>
-      <PageHead title="Ward-wise Analytics" sub="Complaint volume, resolution and repeat-hotspot load by ward office and ward." right={<DemoTag />} />
+      <PageHead title="Ward-wise Analytics" sub="Complaint volume, resolution and repeat-hotspot load by zone and ward." right={<DemoTag />} />
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {zones.map((z) => (
           <Panel key={z.zone} className="p-4">
@@ -56,7 +56,7 @@ export default function WardAnalytics() {
       </div>
       <div className="mt-5 grid gap-5 lg:grid-cols-2">
         <Panel className="p-4">
-          <div className="mb-2 text-sm font-bold">Complaint status by ward office</div>
+          <div className="mb-2 text-sm font-bold">Complaint status by zone</div>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={zones} margin={{ top: 8, right: 8, left: -18, bottom: 0 }} barCategoryGap="30%">
@@ -119,7 +119,7 @@ export default function WardAnalytics() {
                   <tr key={s.wardNo} className="border-b border-ink-50">
                     <td className="px-4 py-2.5">
                       <div className="flex items-center gap-1.5 font-bold"><span className="h-2 w-2 rounded-full" style={{ background: ZONE_COLOR[s.zone] }} />Ward {s.wardNo}</div>
-                      <div className="text-xs text-ink-500">{s.name} · Office {s.zone}</div>
+                      <div className="text-xs text-ink-500">{s.name} · Zone {s.zone}</div>
                     </td>
                     <td className="px-3 py-2.5">
                       <StatusStars level={s.level} size="h-3.5 w-3.5" />

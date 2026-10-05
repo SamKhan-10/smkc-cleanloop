@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, BookOpen, LogOut, UserRound } from 'lucide-react';
+import { Menu, X, BookOpen, LogOut, UserRound, ClipboardList, Bell } from 'lucide-react';
+import { AccountMenu } from './AccountMenu';
 import clsx from 'clsx';
 import { Logo } from './Logo';
 import { LanguageSelect } from './LanguageSelect';
@@ -22,6 +23,20 @@ export function Header() {
   const loc = useLocation();
   const citizen = useCitizen();
   const logout = useStore((s) => s.logoutCitizen);
+  const unread = useStore((s) => s.notifications.filter((n) => n.audience === 'citizen' && n.citizenId === citizen?.citizenId && !n.read).length);
+  const accountMenu = citizen && (
+    <AccountMenu
+      title={t('cd.citizenId')}
+      subtitle={citizen.citizenId}
+      buttonLabel={citizen.citizenId}
+      items={[
+        { to: '/citizen/complaints', label: t('cd.myReports'), icon: <ClipboardList className="h-4 w-4" /> },
+        { to: '/citizen/notifications', label: t('nav.notifications'), icon: <Bell className="h-4 w-4" />, badge: unread },
+      ]}
+      onSignOut={logout}
+      signOutLabel={t('nav.signout')}
+    />
+  );
   useEffect(() => setOpen(false), [loc.pathname]);
 
   const linkCls = ({ isActive }: { isActive: boolean }) =>
@@ -45,6 +60,7 @@ export function Header() {
           ))}
           <span className="mx-1.5 h-5 w-px bg-ink-200" />
           {citizen && <NotificationBell audience="citizen" citizenId={citizen.citizenId} linkBase="/citizen/notifications" />}
+          {accountMenu}
           <LanguageSelect />
           <NavLink to="/how" className={linkCls}>
             <span className="inline-flex items-center gap-1.5">
@@ -77,12 +93,14 @@ export function Header() {
               {t('nav.how')}
             </NavLink>
             {citizen && (
-              <div className="mt-2 flex items-center justify-between rounded-xl bg-ink-50 px-3 py-2.5 text-sm">
-                <span className="flex items-center gap-2 font-semibold text-ink-700">
-                  <UserRound className="h-4 w-4" /> {citizen.citizenId}
-                </span>
-                <button onClick={logout} className="flex items-center gap-1 text-xs font-semibold text-ink-500">
-                  <LogOut className="h-3.5 w-3.5" /> {t('nav.signout')}
+              <div className="mt-2 rounded-xl bg-ink-50 p-2 text-sm">
+                <div className="flex items-center gap-2 px-2 py-1.5 font-semibold text-ink-700">
+                  <UserRound className="h-4 w-4" /> {t('cd.citizenId')}: <span className="mono">{citizen.citizenId}</span>
+                </div>
+                <NavLink to="/citizen/complaints" className="flex items-center gap-2 rounded-lg px-2 py-2 text-ink-700"><ClipboardList className="h-4 w-4" /> {t('cd.myReports')}</NavLink>
+                <NavLink to="/citizen/notifications" className="flex items-center gap-2 rounded-lg px-2 py-2 text-ink-700"><Bell className="h-4 w-4" /> {t('nav.notifications')}{unread > 0 && <span className="rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">{unread}</span>}</NavLink>
+                <button onClick={logout} className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left font-semibold text-red-600">
+                  <LogOut className="h-4 w-4" /> {t('nav.signout')}
                 </button>
               </div>
             )}

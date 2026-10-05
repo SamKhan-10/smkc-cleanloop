@@ -138,10 +138,10 @@ export default function ComplaintManage() {
             <dl className="grid grid-cols-2 gap-4 text-sm">
               {[
                 [UserRound, 'Citizen ID', <span className="mono">{c.citizenId}</span>],
-                [MapPin, 'Ward', `Ward ${c.wardNo} · Office ${c.zone}`],
+                [MapPin, 'Ward', `Ward ${c.wardNo} · Zone ${c.zone}`],
                 [Crosshair, 'Location', c.locationName],
                 [Clock, 'Reported', fmtDateTime(c.createdAt)],
-                [Truck, 'Team', crew ? `${crew.name} (${crew.vehicle})` : 'Ward Office queue'],
+                [Truck, 'Team', crew ? `${crew.name} (${crew.vehicle})` : `Zone ${c.zone} office queue`],
                 [Clock, 'Last update', fmtWhen(c.updatedAt)],
               ].map(([I, k, v], i) => {
                 const Icon = I as typeof Clock;
@@ -185,7 +185,7 @@ export default function ComplaintManage() {
                 <Truck className="h-5 w-5 text-blue-600" />
                 <div className="flex-1">
                   <div className="font-semibold">{k.name} <span className="text-xs font-normal text-ink-500">· {k.vehicle} · {k.members} members</span></div>
-                  <div className="text-xs text-ink-500">Ward {k.zone} · {(d / 1000).toFixed(1)} km away · {load} open tasks</div>
+                  <div className="text-xs text-ink-500">Zone {k.zone} · {(d / 1000).toFixed(1)} km away · {load} open tasks</div>
                 </div>
                 {k.zone === c.zone && <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700">SAME WARD</span>}
               </label>
@@ -205,7 +205,7 @@ export default function ComplaintManage() {
       </Modal>
 
       <Modal open={escOpen} onClose={() => setEscOpen(false)} title="Escalate complaint?">
-        <p className="text-sm text-ink-600">Escalating <b className="mono">{c.id}</b> raises its priority one level and flags it for the Ward {c.zone} officer. This action is recorded in the audit trail under <b className="mono">{by}</b>.</p>
+        <p className="text-sm text-ink-600">Escalating <b className="mono">{c.id}</b> raises its priority one level and flags it for the Zone {c.zone} ward officer. This action is recorded in the audit trail under <b className="mono">{by}</b>.</p>
         <div className="mt-5 flex gap-2">
           <button className="btn-secondary flex-1" onClick={() => setEscOpen(false)}>Cancel</button>
           <button className="btn-danger flex-1" onClick={() => { escalate(c.id, by); setEscOpen(false); toast('Complaint escalated', `${c.id} priority raised.`, 'warn'); }}>

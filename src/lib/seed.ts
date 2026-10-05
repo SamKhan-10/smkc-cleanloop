@@ -117,7 +117,7 @@ export function buildHistory(
     h.push({ event: 'review_queued', at: t + 9000, by: 'CivicSense System' });
     return { history: h, updatedAt: t + 9000 };
   }
-  h.push({ event: 'routed', at: t + 60000, by: 'CivicSense System', status: 'assigned', note: `Ward Office ${c.zone}` });
+  h.push({ event: 'routed', at: t + 60000, by: 'CivicSense System', status: 'assigned', note: `Zone ${c.zone} Office` });
   t += MIN + r() * 5 * HOUR;
   const done = (s: Status) => ['in_progress', 'cleanup_completed', 'awaiting_verification', 'verified_resolved'].includes(s);
   if (status === 'assigned') {

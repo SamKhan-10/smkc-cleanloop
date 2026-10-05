@@ -107,10 +107,10 @@ export default function IssueDetail() {
             <dl className="grid grid-cols-2 gap-4 text-sm">
               {[
                 [UserRound, t('common.citizen'), <span className="mono">{c.citizenId}</span>],
-                [MapPin, t('common.ward'), `${t('common.ward')} ${c.wardNo} · Ward Office ${c.zone}`],
+                [MapPin, t('common.ward'), `${t('common.ward')} ${c.wardNo} · Zone ${c.zone}`],
                 [Crosshair, t('common.location'), c.locationName],
                 [Clock, t('cd.submitted'), fmtDateTime(c.createdAt)],
-                [Users, 'Municipal team', crew ? `${crew.name}` : `Ward Office ${c.zone}`],
+                [Users, 'Municipal team', crew ? `${crew.name}` : `Zone ${c.zone} office`],
                 [Clock, t('common.lastUpdated'), fmtWhen(c.updatedAt)],
               ].map(([I, k, v], i) => {
                 const Icon = I as typeof Clock;

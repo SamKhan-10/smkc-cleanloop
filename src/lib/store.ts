@@ -202,7 +202,7 @@ export const useStore = create<State & Actions>()(
               { event: 'location_verified', at: now, by: 'CivicSense System' },
               { event: 'ward_identified', at: now, by: 'CivicSense System' },
               { event: 'ai_validated', at: now, by: 'CivicSense System', note: d.ai.duplicates.length ? d.ai.duplicates.join(', ') : undefined },
-              { event: 'routed', at: now, by: 'CivicSense System', status: 'assigned', note: `Ward Office ${ward.zone}` },
+              { event: 'routed', at: now, by: 'CivicSense System', status: 'assigned', note: `Zone ${ward.zone} Office` },
             ],
           };
           const complaints = [c, ...s.complaints];
@@ -239,7 +239,7 @@ export const useStore = create<State & Actions>()(
           if (!c) return;
           patch(id, (x) => {
             const done = transition(x, 'cleanup_completed', 'cleanup_completed', x.crewId ?? by);
-            return transition(done, 'awaiting_verification', 'verification_queued', 'CivicSense System', `Ground Verification · Ward ${x.zone}`);
+            return transition(done, 'awaiting_verification', 'verification_queued', 'CivicSense System', `Ground Verification · Zone ${x.zone}`);
           });
           notify({ audience: 'citizen', citizenId: c.citizenId, complaintId: id, kind: 'cleanup_done' });
         },
@@ -309,18 +309,20 @@ export const useStore = create<State & Actions>()(
     },
     {
       name: 'smkc-cleanloop', // internal storage key kept so existing demo data is preserved
-      version: 2,
+      version: 3,
       storage: createJSONStorage(() => safeStorage),
       // v2: product renamed to CivicSense — update stored user-visible strings (audit actor, demo email).
+      // v3: ward offices are labelled "Zone A–D" (wards are always numbered) — update stored notes.
       migrate: (persisted, version) => {
-        if (version < 2 && persisted) {
-          return JSON.parse(
-            JSON.stringify(persisted)
-              .split('CleanLoop System').join('CivicSense System')
-              .split('citizen.demo@cleanloop.in').join('citizen.demo@civicsense.in'),
-          );
+        if (!persisted) return persisted as State & Actions;
+        let json = JSON.stringify(persisted);
+        if (version < 2) {
+          json = json.split('CleanLoop System').join('CivicSense System').split('citizen.demo@cleanloop.in').join('citizen.demo@civicsense.in');
         }
-        return persisted as State & Actions;
+        if (version < 3) {
+          json = json.replace(/Ward Office ([A-D])/g, 'Zone $1 Office').replace(/Ground Verification · Ward ([A-D])/g, 'Ground Verification · Zone $1');
+        }
+        return JSON.parse(json) as State & Actions;
       },
     },
   ),

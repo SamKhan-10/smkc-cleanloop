@@ -4,6 +4,8 @@ import { LayoutGrid, Map as MapIcon, Search, Siren, Timer, CheckCircle2, CircleD
 import { useT } from '../i18n';
 import { useStore } from '../lib/store';
 import { bucketOf } from '../lib/status';
+import { zoneById } from '../lib/geo';
+import type { ZoneId } from '../lib/types';
 import { IssueCard } from '../components/IssueCard';
 import { MapView } from '../components/MapView';
 import { DemoTag, EmptyState, Segmented } from '../components/ui';
@@ -122,9 +124,9 @@ export default function LiveIssues() {
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('common.search')} className="input !py-2 pl-9" />
             </div>
-            <select value={zone} onChange={(e) => setZone(e.target.value)} className="input !w-auto !py-2" aria-label="Ward office">
-              <option value="all">All wards</option>
-              {['A', 'B', 'C', 'D'].map((z) => <option key={z} value={z}>Ward {z}</option>)}
+            <select value={zone} onChange={(e) => setZone(e.target.value)} className="input !w-auto !py-2" aria-label="Zone">
+              <option value="all">All zones</option>
+              {['A', 'B', 'C', 'D'].map((z) => <option key={z} value={z}>Zone {z} · {zoneById(z as ZoneId).area}</option>)}
             </select>
             <Segmented
               value={view}
