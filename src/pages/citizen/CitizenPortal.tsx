@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Camera, ClipboardList, Map as MapIcon, Bell, Trophy, LogOut, ShieldCheck, ArrowRight, Star, FileText, CheckCircle2, Timer, Hourglass, Award } from 'lucide-react';
+import { Camera, ClipboardList, Map as MapIcon, Bell, LogOut, ShieldCheck, ArrowRight, Star, FileText, CheckCircle2, Timer } from 'lucide-react';
 import clsx from 'clsx';
 import { useT } from '../../i18n';
 import { useCitizen, useStore } from '../../lib/store';
@@ -12,6 +12,9 @@ import { EvidenceImage } from '../../components/EvidenceImage';
 import { EmptyState } from '../../components/ui';
 import { notifText } from '../../components/notifText';
 import { wardByNo } from '../../lib/geo';
+import { useWardStatuses } from '../../lib/useWardStatus';
+import { LEVEL_KEY } from '../../lib/wardStatus';
+import { StatusStars, LEVEL_TONE } from '../../components/StatusStars';
 
 function useMine() {
   const citizen = useCitizen();
@@ -58,11 +61,12 @@ function Dashboard() {
   const mine = useMine();
   const unread = notifications.filter((n) => !n.read).length;
   const resolved = mine.filter((c) => c.status === 'verified_resolved');
-  const inProg = mine.filter((c) => bucketOf(c.status) === 'in_progress');
-  const pending = mine.filter((c) => bucketOf(c.status) === 'pending');
-  const points = mine.length * 10 + resolved.length * 20 + mine.filter((c) => c.feedback).length * 5;
+  const active = mine.filter((c) => bucketOf(c.status) !== 'resolved');
   const feedbackDue = resolved.filter((c) => !c.feedback);
   const homeWard = mine[0] ? wardByNo(mine[0].wardNo) : null;
+  const wardStatuses = useWardStatuses();
+  const myWard = homeWard ? wardStatuses.find((w) => w.wardNo === homeWard.no) : undefined;
+  const statusLink = homeWard ? `/status?ward=${homeWard.no}` : '/status';
 
   return (
     <div className="container-x py-6 sm:py-10">
@@ -81,12 +85,11 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-3 gap-3">
         {[
           [FileText, mine.length, t('cd.myReports'), 'bg-brand-50 text-brand-700'],
-          [CheckCircle2, resolved.length, t('cd.resolved'), 'bg-emerald-50 text-emerald-600'],
-          [Timer, inProg.length, t('cd.inProgress'), 'bg-amber-50 text-amber-600'],
-          [Hourglass, pending.length, t('cd.pending'), 'bg-sky-50 text-sky-600'],
+          [Timer, active.length, t('cd.active'), 'bg-amber-50 text-amber-600'],
+          [CheckCircle2, resolved.length, t('cd.verified'), 'bg-emerald-50 text-emerald-600'],
         ].map(([I, v, l, tone]) => {
           const Icon = I as typeof Timer;
           return (
@@ -102,22 +105,16 @@ function Dashboard() {
       <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {[
           { to: '/report', icon: Camera, label: `📸 ${t('common.report')}`, primary: true },
-          { to: '/citizen/complaints', icon: ClipboardList, label: `📋 ${t('cd.myComplaints')}` },
-          { to: '/live', icon: MapIcon, label: `🗺️ ${t('nav.live')}` },
+          { to: '/citizen/complaints', icon: ClipboardList, label: `📋 ${t('cd.track')}` },
           { to: '/citizen/notifications', icon: Bell, label: `🔔 ${t('nav.notifications')}`, badge: unread },
-          { to: '#contribution', icon: Trophy, label: `🏆 ${t('cd.contribution')}` },
-        ].map((a) =>
-          a.to.startsWith('#') ? (
-            <a key={a.to} href={a.to} onClick={(e) => { e.preventDefault(); document.getElementById('contribution')?.scrollIntoView({ behavior: 'smooth' }); }} className="card flex items-center gap-2 p-4 text-sm font-semibold transition hover:shadow-lift">
-              {a.label}
-            </a>
-          ) : (
-            <Link key={a.to} to={a.to} className={clsx('relative flex items-center gap-2 rounded-2xl p-4 text-sm font-semibold transition hover:shadow-lift', a.primary ? 'bg-brand-700 text-white shadow-card hover:bg-brand-800' : 'card')}>
-              {a.label}
-              {!!a.badge && <span className="absolute right-3 top-3 grid h-5 min-w-5 place-items-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">{a.badge}</span>}
-            </Link>
-          ),
-        )}
+          { to: statusLink, icon: Star, label: `⭐ ${t('nav.status')}` },
+          { to: '/live', icon: MapIcon, label: `🗺️ ${t('nav.live')}` },
+        ].map((a) => (
+          <Link key={a.to} to={a.to} className={clsx('relative flex items-center gap-2 rounded-2xl p-4 text-sm font-semibold transition hover:shadow-lift', a.primary ? 'bg-brand-700 text-white shadow-card hover:bg-brand-800' : 'card')}>
+            {a.label}
+            {!!a.badge && <span className="absolute right-3 top-3 grid h-5 min-w-5 place-items-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">{a.badge}</span>}
+          </Link>
+        ))}
       </div>
 
       {feedbackDue.length > 0 && (
@@ -170,25 +167,31 @@ function Dashboard() {
               </ul>
             )}
           </div>
-          <div id="contribution" className="card scroll-mt-24 overflow-hidden">
-            <div className="bg-gradient-to-br from-brand-700 to-brand-900 p-5 text-white">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-200"><Award className="h-4 w-4" /> {t('cd.contribution')}</div>
-              <div className="mt-2 font-display text-4xl font-extrabold">{points}</div>
-              <div className="text-sm text-brand-100">{t('cd.points')}</div>
+          <div className="card p-5">
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="font-bold">{t('cd.wardStatus')}</h3>
+              <Link to={statusLink} className="text-xs font-semibold text-brand-700">{t('common.seeAll')}</Link>
             </div>
-            <div className="space-y-3 p-5 text-sm">
-              <p className="text-ink-600">{t('cd.contribText')}</p>
-              <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                <div className="rounded-xl bg-ink-50 p-2"><div className="font-bold text-ink-900">+10</div>per report</div>
-                <div className="rounded-xl bg-ink-50 p-2"><div className="font-bold text-ink-900">+20</div>verified</div>
-                <div className="rounded-xl bg-ink-50 p-2"><div className="font-bold text-ink-900">+5</div>feedback</div>
-              </div>
-              {homeWard && (
-                <Link to={`/status?ward=${homeWard.no}`} className="flex items-center justify-between rounded-xl bg-brand-50 px-3 py-2.5 font-semibold text-brand-800">
-                  <span>{t('common.ward')} {homeWard.no} · {t('ws.title')}</span> <ArrowRight className="h-4 w-4" />
-                </Link>
-              )}
-            </div>
+            {myWard ? (
+              <Link to={statusLink} className="block">
+                <div className="font-display text-sm font-extrabold tracking-[0.12em] text-ink-900">{t('common.ward').toUpperCase()} {myWard.wardNo}</div>
+                <div className="text-xs text-ink-500">{myWard.name}</div>
+                <div className="mt-3"><StatusStars level={myWard.level} /></div>
+                <div className={clsx('mt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset', LEVEL_TONE[myWard.level].bg, LEVEL_TONE[myWard.level].text, LEVEL_TONE[myWard.level].ring)}>
+                  <span className={clsx('h-1.5 w-1.5 rounded-full', LEVEL_TONE[myWard.level].dot)} />
+                  {t('ws.statusLabel', { level: t(`ws.${LEVEL_KEY[myWard.level]}`) })}
+                </div>
+                <ul className="mt-3 space-y-1.5">
+                  {myWard.highlights.slice(0, 2).map((h) => (
+                    <li key={h} className="flex items-start gap-2 text-sm text-ink-600"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />{t(h)}</li>
+                  ))}
+                </ul>
+              </Link>
+            ) : (
+              <Link to="/status" className="flex items-center justify-between rounded-xl bg-brand-50 px-3 py-2.5 text-sm font-semibold text-brand-800">
+                <span>{t('cd.wardStatusEmpty')}</span> <ArrowRight className="h-4 w-4" />
+              </Link>
+            )}
           </div>
         </aside>
       </div>
