@@ -14,11 +14,12 @@ export function StatusBadge({ status, className }: { status: Status; className?:
   );
 }
 
-export function PriorityBadge({ priority, className }: { priority: Priority; className?: string }) {
+export function PriorityBadge({ priority, className, prefix }: { priority: Priority; className?: string; prefix?: string }) {
   const t = useT();
   return (
     <span className={clsx('chip uppercase tracking-wide !text-[10px]', PRIORITY_TONE[priority], className)}>
       {priority === 'critical' && <Flame className="h-3 w-3" />}
+      {prefix && <span className="font-semibold normal-case opacity-80">{prefix}:</span>}
       {t(`priority.${priority}`)}
     </span>
   );

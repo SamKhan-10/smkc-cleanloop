@@ -5,7 +5,7 @@ import { useT } from '../i18n';
 import { PriorityBadge } from './badges';
 import { DemoTag } from './ui';
 
-export function AiPanel({ ai, priority, dark, compact }: { ai: AiAnalysis; priority: Priority; dark?: boolean; compact?: boolean }) {
+export function AiPanel({ ai, priority, dark, compact, showPriority = true }: { ai: AiAnalysis; priority: Priority; dark?: boolean; compact?: boolean; showPriority?: boolean }) {
   const t = useT();
   const box = clsx('rounded-2xl p-4', dark ? 'bg-white/5 ring-1 ring-white/10' : 'bg-ink-50/80 ring-1 ring-ink-100');
   const k = clsx('text-[11px] uppercase tracking-wider', dark ? 'text-ink-400' : 'text-ink-500');
@@ -32,13 +32,14 @@ export function AiPanel({ ai, priority, dark, compact }: { ai: AiAnalysis; prior
           {head(Layers, t('rp.duplicateCheck'))}
           <div className="flex justify-between text-sm"><span className={k}>{t('rp.nearbySimilar')}</span><span className={v}>{ai.duplicates.length}</span></div>
           {ai.duplicates.length > 0 && <div className={clsx('mono mt-1 truncate text-[11px]', dark ? 'text-ink-400' : 'text-ink-500')}>{ai.duplicates.slice(0, 3).join(' · ')}</div>}
-          <div className="mt-1 flex justify-between text-sm"><span className={k}>{t('rp.locationSensitivity')}</span><span className={v}>{Math.round(ai.locationSensitivity * 100)}/100</span></div>
+          {showPriority && (<div className="mt-1 flex justify-between text-sm"><span className={k}>{t('rp.locationSensitivity')}</span><span className={v}>{Math.round(ai.locationSensitivity * 100)}/100</span></div>)}
         </div>
         <div className={box}>
           {head(Radar, t('rp.hotspotAnalysis'))}
           <div className="flex justify-between text-sm"><span className={k}>{t('rp.repeatOccurrence')}</span><span className={clsx(v, ai.repeatArea ? 'text-red-600' : '')}>{ai.repeatArea ? t('rp.yes') : t('rp.no')}</span></div>
           <div className="mt-1 flex justify-between text-sm"><span className={k}>Incidents within 150 m (45 d)</span><span className={v}>{ai.nearbyHistory}</span></div>
         </div>
+        {showPriority && (
         <div className={box}>
           {head(Sparkles, t('common.priority'))}
           <div className="flex items-center justify-between">
@@ -49,6 +50,7 @@ export function AiPanel({ ai, priority, dark, compact }: { ai: AiAnalysis; prior
             <div className="h-full rounded-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600" style={{ width: `${ai.score}%` }} />
           </div>
         </div>
+        )}
       </div>
     </div>
   );

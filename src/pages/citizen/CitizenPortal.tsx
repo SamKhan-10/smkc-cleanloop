@@ -36,7 +36,7 @@ export function ReportRow({ c }: { c: Complaint }) {
               <span className="mono font-semibold text-ink-700">{c.id}</span> · {t('common.ward')} {c.wardNo} · {t('cd.submitted')} {fmtWhen(c.createdAt)}
             </div>
           </div>
-          <PriorityBadge priority={c.priority} />
+          <PriorityBadge priority={c.citizenSeverity} prefix={t('rp.severity')} />
         </div>
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <StatusBadge status={c.status} />

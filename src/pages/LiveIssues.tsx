@@ -166,6 +166,7 @@ export default function LiveIssues() {
             highlightId={highlight}
             focus={hl ? { lat: hl.lat, lng: hl.lng, zoom: 15 } : null}
             scrollWheel
+            citizenView
           />
         )}
       </div>

@@ -46,7 +46,7 @@ export default function IssueDetail() {
           <h1 className="mono mt-0.5 text-3xl font-extrabold">{c.id}</h1>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <StatusBadge status={c.status} />
-            <PriorityBadge priority={c.priority} />
+            <PriorityBadge priority={c.citizenSeverity} prefix={t('rp.severity')} />
             {hotspot && <span className="chip bg-red-600 text-white ring-red-600 !text-[10px] uppercase">🚨 Repeat hotspot · {hotspot.id}</span>}
             {c.demo && <span className="chip bg-amber-50 text-amber-800 ring-amber-200 !text-[10px]">DEMO RECORD</span>}
           </div>
@@ -90,7 +90,7 @@ export default function IssueDetail() {
           {isOwner && resolved && <FeedbackForm c={c} />}
 
           <div className="card p-4 sm:p-5">
-            <AiPanel ai={c.ai} priority={c.priority} />
+            <AiPanel ai={c.ai} priority={c.priority} showPriority={false} />
           </div>
 
           <div className="card overflow-hidden">
@@ -98,7 +98,7 @@ export default function IssueDetail() {
               <div className="text-sm font-bold">{t('common.location')}</div>
               <span className="mono text-xs text-ink-500">{fmtCoord(c.lat, c.lng)}</span>
             </div>
-            <MapView className="h-72 rounded-none border-0" complaints={[c]} hotspots={hotspot ? [hotspot] : []} focus={{ lat: c.lat, lng: c.lng, zoom: 16 }} highlightId={c.id} legend={false} />
+            <MapView className="h-72 rounded-none border-0" complaints={[c]} hotspots={hotspot ? [hotspot] : []} focus={{ lat: c.lat, lng: c.lng, zoom: 16 }} highlightId={c.id} legend={false} citizenView />
           </div>
         </div>
 

@@ -31,6 +31,8 @@ interface Props {
   user?: { lat: number; lng: number; label: string } | null;
   scrollWheel?: boolean;
   legend?: boolean;
+  /** Public/citizen maps colour markers by the citizen-selected severity, never the internal system priority. */
+  citizenView?: boolean;
 }
 
 function divIcon(html: string, size = 28) {
@@ -94,6 +96,7 @@ export function MapView({
   user,
   scrollWheel = false,
   legend = true,
+  citizenView = false,
 }: Props) {
   const t = useT();
   const sorted = useMemo(
@@ -137,14 +140,15 @@ export function MapView({
         ))}
         {sorted.map((c) => {
           const resolved = c.status === 'verified_resolved';
-          const color = resolved ? RESOLVED_COLOR : PRIORITY_COLOR[c.priority];
+          const level = citizenView ? c.citizenSeverity : c.priority;
+          const color = resolved ? RESOLVED_COLOR : PRIORITY_COLOR[level];
           const hl = c.id === highlightId;
           if (routeIds.has(c.id)) return null;
           return (
             <CircleMarker
               key={c.id}
               center={[c.lat, c.lng]}
-              radius={hl ? 11 : resolved ? 4.5 : c.priority === 'critical' ? 8 : c.priority === 'high' ? 7 : 6}
+              radius={hl ? 11 : resolved ? 4.5 : level === 'critical' ? 8 : level === 'high' ? 7 : 6}
               pathOptions={{ color: '#fff', weight: hl ? 3 : 1.5, fillColor: color, fillOpacity: resolved ? 0.55 : 0.95 }}
               eventHandlers={onSelect ? { click: () => onSelect(c) } : undefined}
             >

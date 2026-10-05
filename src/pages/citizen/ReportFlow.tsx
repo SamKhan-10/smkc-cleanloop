@@ -195,16 +195,6 @@ function Flow() {
                 ))}
               </div>
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-ink-50 p-4 ring-1 ring-ink-100">
-              <div>
-                <div className="text-[11px] font-bold uppercase tracking-wider text-ink-500">{t('rp.systemPriority')}</div>
-                <div className="mt-1 flex items-center gap-2">
-                  <PriorityBadge priority={priority} className="!text-sm !px-3 !py-1" />
-                  <span className="text-xs text-ink-500">score {ai.score}/100 · simulated</span>
-                </div>
-                <p className="mt-1.5 max-w-md text-[11px] text-ink-500">{t('rp.priorityBasis')}</p>
-              </div>
-            </div>
             <button
               className="btn-primary btn-lg w-full"
               onClick={() => {
@@ -252,7 +242,7 @@ function Flow() {
           <div className="space-y-4">
             {step === 'review' ? (
               <div className="card page-enter p-5">
-                <AiPanel ai={ai} priority={priority} />
+                <AiPanel ai={ai} priority={priority} showPriority={false} />
                 {ai.repeatArea && (
                   <div className="mt-4 flex gap-3 rounded-2xl bg-red-50 p-3 text-sm text-red-800 ring-1 ring-red-200">
                     <Siren className="h-5 w-5 shrink-0" />
@@ -300,7 +290,7 @@ function Flow() {
                 <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
                   <div><dt className="text-[11px] uppercase tracking-wider text-ink-400">{t('common.ward')}</dt><dd className="font-semibold">{t('common.ward')} {result.complaint.wardNo}</dd></div>
                   <div><dt className="text-[11px] uppercase tracking-wider text-ink-400">{t('common.reported')}</dt><dd className="font-semibold">{fmtTime(result.complaint.createdAt)}</dd></div>
-                  <div><dt className="text-[11px] uppercase tracking-wider text-ink-400">{t('common.priority')}</dt><dd className="mt-0.5"><PriorityBadge priority={result.complaint.priority} /></dd></div>
+                  <div><dt className="text-[11px] uppercase tracking-wider text-ink-400">{t('rp.severity')}</dt><dd className="mt-0.5"><PriorityBadge priority={result.complaint.citizenSeverity} /></dd></div>
                   <div><dt className="text-[11px] uppercase tracking-wider text-ink-400">{t('common.citizen')}</dt><dd className="mono font-semibold">{result.complaint.citizenId}</dd></div>
                 </dl>
                 <div className="mt-4 border-t border-ink-100 pt-3">

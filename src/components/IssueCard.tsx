@@ -21,7 +21,7 @@ export function IssueCard({ c, hotspot, to, isNew }: { c: Complaint; hotspot?: b
         <EvidenceImage src={c.status === 'verified_resolved' && c.verification ? c.verification.image : c.evidence.image} alt={`Evidence for ${c.id}`} className="h-full w-full transition duration-500 group-hover:scale-105" w={400} h={220} />
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2.5">
           <span className="rounded-md bg-ink-950/70 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur">{t(`type.${c.type}`)}</span>
-          <PriorityBadge priority={c.priority} className="!bg-white/95" />
+          <PriorityBadge priority={c.citizenSeverity} prefix={t('rp.severity')} className="!bg-white/95" />
         </div>
         {hotspot && (
           <span className="absolute bottom-2 left-2.5 rounded-md bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">🚨 {t('filter.hotspots')}</span>
