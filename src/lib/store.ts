@@ -2,12 +2,11 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type {
   AppNotification, CitizenAccount, Complaint, EnforcementAction, Evidence, Hotspot, IssueType, NotificationKind,
-  OptimizedRoute, Severity, StaffAccount, StaffRole, Status, Verification, ZoneId, AiAnalysis, Priority,
+  OptimizedRoute, Severity, StaffAccount, StaffRole, Status, Verification, AiAnalysis, Priority,
 } from './types';
 import { CREWS, DEMO_CITIZEN, generateSeed } from './seed';
 import { describeLocation } from './geo';
 import { applyHotspotRule } from './hotspots';
-import { liveMetrics, type Metrics } from './rankings';
 import { scoreToPriority } from './ai';
 
 export type Lang = 'en' | 'mr' | 'hi';
@@ -19,7 +18,6 @@ interface State {
   citizens: CitizenAccount[];
   staff: StaffAccount[];
   routes: OptimizedRoute[];
-  seedMetrics: Record<ZoneId, Metrics>;
   nextNum: number;
   nextNotif: number;
   session: { citizenId?: string; staffId?: string; verifierId?: string };
@@ -65,9 +63,6 @@ const PRIORITY_UP: Record<Priority, Priority> = { low: 'medium', medium: 'high',
 
 function freshState(): Omit<State, 'lang' | 'session'> {
   const seed = generateSeed();
-  const seedMetrics = Object.fromEntries(
-    (['A', 'B', 'C', 'D'] as ZoneId[]).map((z) => [z, liveMetrics(z, seed.complaints, seed.hotspots)]),
-  ) as Record<ZoneId, Metrics>;
   return {
     complaints: seed.complaints,
     hotspots: seed.hotspots,
@@ -75,7 +70,6 @@ function freshState(): Omit<State, 'lang' | 'session'> {
     citizens: [{ ...DEMO_CITIZEN, createdAt: Date.now() - 40 * 86400000 }],
     staff: [],
     routes: [],
-    seedMetrics,
     nextNum: 1284,
     nextNotif: seed.nextNotificationId,
   };

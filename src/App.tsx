@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import { PublicLayout } from './components/PublicLayout';
 import { Toaster } from './components/Toast';
@@ -6,7 +6,7 @@ import { useStore } from './lib/store';
 import Home from './pages/Home';
 import LiveIssues from './pages/LiveIssues';
 import IssueDetail from './pages/IssueDetail';
-import WardRankings from './pages/WardRankings';
+import WardStatus from './pages/WardStatus';
 import HowItWorks from './pages/HowItWorks';
 import CitizenPortal from './pages/citizen/CitizenPortal';
 import ReportFlow from './pages/citizen/ReportFlow';
@@ -26,7 +26,8 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="live" element={<LiveIssues />} />
           <Route path="issues/:id" element={<IssueDetail />} />
-          <Route path="rankings" element={<WardRankings />} />
+          <Route path="status" element={<WardStatus />} />
+          <Route path="rankings" element={<Navigate to="/status" replace />} />
           <Route path="how" element={<HowItWorks />} />
           <Route path="citizen" element={<CitizenPortal />} />
           <Route path="citizen/complaints" element={<CitizenPortal view="complaints" />} />

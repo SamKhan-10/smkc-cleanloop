@@ -184,8 +184,8 @@ function Dashboard() {
                 <div className="rounded-xl bg-ink-50 p-2"><div className="font-bold text-ink-900">+5</div>feedback</div>
               </div>
               {homeWard && (
-                <Link to="/rankings" className="flex items-center justify-between rounded-xl bg-brand-50 px-3 py-2.5 font-semibold text-brand-800">
-                  <span>Ward {homeWard.zone} cleanliness ranking</span> <ArrowRight className="h-4 w-4" />
+                <Link to={`/status?ward=${homeWard.no}`} className="flex items-center justify-between rounded-xl bg-brand-50 px-3 py-2.5 font-semibold text-brand-800">
+                  <span>{t('common.ward')} {homeWard.no} · {t('ws.title')}</span> <ArrowRight className="h-4 w-4" />
                 </Link>
               )}
             </div>

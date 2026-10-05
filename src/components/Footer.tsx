@@ -14,7 +14,7 @@ export function Footer() {
     ['/municipal', 'nav.municipal'],
     ['/verifier', 'nav.verifier'],
     ['/live', 'nav.live'],
-    ['/rankings', 'nav.rankings'],
+    ['/status', 'nav.status'],
     ['/how', 'nav.how'],
   ];
   return (

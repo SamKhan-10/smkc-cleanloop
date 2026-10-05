@@ -11,7 +11,7 @@ import { useCitizen, useStore } from '../lib/store';
 const NAV = [
   { to: '/', key: 'nav.home', end: true },
   { to: '/live', key: 'nav.live' },
-  { to: '/rankings', key: 'nav.rankings' },
+  { to: '/status', key: 'nav.status' },
   { to: '/municipal', key: 'nav.municipal' },
   { to: '/citizen', key: 'nav.citizen' },
 ];

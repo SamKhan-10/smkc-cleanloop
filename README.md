@@ -23,7 +23,7 @@ Citizen report → geo-verified evidence → validation → ward identification 
 
 | Area | Route | What it does |
 |---|---|---|
-| Public site | `/#/`, `/#/live`, `/#/rankings`, `/#/how` | Geo-tagged camera entry point, Live Civic Issues feed (cards + map), Ward Cleanliness Rankings, How It Works |
+| Public site | `/#/`, `/#/live`, `/#/status`, `/#/how` | Geo-tagged camera entry point, Live Civic Issues feed (cards + map), Ward Cleanliness Status, How It Works |
 | Citizen Portal | `/#/citizen`, `/#/report` | OTP sign-up with anonymous Citizen ID, geo-tagged camera capture (no gallery upload), AI validation, tracking, notifications, feedback |
 | Municipal Command Center | `/#/municipal` | Staff OTP + supporting document sign-in, ward map, priority queue, complaint management, route optimization, repeat hotspots, root-cause investigation, enforcement support, ward analytics |
 | Field Verifier | `/#/verifier` | Assigned verifications, navigation, fresh geo-tagged verification photo, before/after comparison, confirm resolution or reopen |
@@ -37,10 +37,14 @@ Citizen report → geo-verified evidence → validation → ward identification 
 - The first new complaint created is **GVP-1284**.
 - "Reset demo data" in the footer restores the initial dataset.
 
+## Ward Cleanliness Status
+
+The public **Ward Status** page shows each ward's cleanliness status as 3–5 stars (★★★ Improving · ★★★★ Good · ★★★★★ Excellent) with plain-language highlights. It is deliberately non-competitive: wards are listed by ward number, and no scores, ranks or comparisons are shown. Status is derived from verified resolution rate, cleanup timeliness, repeat-hotspot reduction, ground-verification results and citizen feedback, and updates live. Municipal staff can see the underlying indicators in **Ward Analytics**.
+
 ## Data & privacy
 
-- All records, statistics, rankings, AI confidence values and route metrics are **demo data / simulated** and are labelled as such in the UI. They are not official SMKC figures, and ward boundaries are simplified illustrative polygons.
-- State is held in a connected client-side store (persisted in the browser), so a complaint created by a citizen immediately appears in Live Civic Issues, the map, the municipal dashboard, KPI counts, ward statistics and rankings; status changes by officers and verifiers propagate everywhere.
+- All records, statistics, ward statuses, AI confidence values and route metrics are **demo data / simulated** and are labelled as such in the UI. They are not official SMKC figures, and ward boundaries are simplified illustrative polygons.
+- State is held in a connected client-side store (persisted in the browser), so a complaint created by a citizen immediately appears in Live Civic Issues, the map, the municipal dashboard, KPI counts, ward statistics and ward status; status changes by officers and verifiers propagate everywhere.
 - Public and municipal views show only anonymous Citizen IDs — never name, email or phone. Staff supporting documents are never displayed.
 - Enforcement features produce *recommendations* for municipal review only — no automatic fines or deployments.
 
@@ -48,4 +52,4 @@ Citizen report → geo-verified evidence → validation → ward identification 
 
 React 18 + TypeScript, Vite, Tailwind CSS, React Router, Zustand (persisted store / mock service layer), Leaflet (OpenStreetMap/CARTO tiles), Recharts, lucide-react. Languages: English, मराठी, हिंदी.
 
-Key modules: `src/lib/store.ts` (state & actions), `src/lib/seed.ts` (demo data), `src/lib/ai.ts` (priority, duplicate and hotspot signals), `src/lib/hotspots.ts` (repeat-hotspot rule), `src/lib/route.ts` (nearest-neighbour + 2-opt routing), `src/lib/rankings.ts` (ward score), `src/components/GeoCamera.tsx` (geo-tagged camera).
+Key modules: `src/lib/store.ts` (state & actions), `src/lib/seed.ts` (demo data), `src/lib/ai.ts` (priority, duplicate and hotspot signals), `src/lib/hotspots.ts` (repeat-hotspot rule), `src/lib/route.ts` (nearest-neighbour + 2-opt routing), `src/lib/wardStatus.ts` (ward cleanliness status), `src/components/GeoCamera.tsx` (geo-tagged camera).

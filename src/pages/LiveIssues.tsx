@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { LayoutGrid, Map as MapIcon, Search, Siren, Timer, CheckCircle2, CircleDot, Trophy, Eye } from 'lucide-react';
+import { LayoutGrid, Map as MapIcon, Search, Siren, Timer, CheckCircle2, CircleDot, Star, Eye } from 'lucide-react';
 import { useT } from '../i18n';
 import { useStore } from '../lib/store';
 import { bucketOf } from '../lib/status';
@@ -18,7 +18,7 @@ export default function LiveIssues() {
   const hotspots = useStore((s) => s.hotspots);
   const [filter, setFilter] = useState<F>((params.get('filter') as F) || 'all');
   const [view, setView] = useState<'list' | 'map'>((params.get('view') as 'map') || 'list');
-  const [q, setQ] = useState('');
+  const [q, setQ] = useState(params.get('q') ?? '');
   const [zone, setZone] = useState('all');
   const [limit, setLimit] = useState(24);
   const pView = params.get('view');
@@ -73,7 +73,7 @@ export default function LiveIssues() {
           <h1 className="mt-1 text-3xl font-extrabold">{t('lv.title')}</h1>
           <p className="mt-1 max-w-2xl text-sm text-ink-500">{t('lv.sub')}</p>
         </div>
-        <Link to="/rankings" className="btn-secondary"><Trophy className="h-4 w-4" /> {t('nav.rankings')}</Link>
+        <Link to="/status" className="btn-secondary"><Star className="h-4 w-4" /> {t('nav.status')}</Link>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
